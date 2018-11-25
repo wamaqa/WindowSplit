@@ -8,6 +8,8 @@
 #endif
 
 
-EXPORT_LIBXLCRACK LRESULT WINAPI GetMsgProc(int nCode, WPARAM wParam, LPARAM lParam);
-EXPORT_LIBXLCRACK BOOL WINAPI SetHook();
+LRESULT WINAPI GetKeyMsgProc(int nCode, WPARAM wParam, LPARAM lParam);
+LRESULT WINAPI GetMouseMsgProc(int nCode, WPARAM wParam, LPARAM lParam);
+EXPORT_LIBXLCRACK bool WINAPI SetHook();
 EXPORT_LIBXLCRACK bool UnHook();
+EXPORT_LIBXLCRACK bool Test();
