@@ -12,6 +12,7 @@
 #include "KeyBoardTag.h"
 #include <locale>
 #include <thread>
+#include "SplitArea.h"
 #pragma data_seg("Shared")
 
 #define WM_CUSTOM_PAINT WM_USER + 50
@@ -23,7 +24,7 @@ std::ofstream  file;
 HWND hWnd;
 int i = 0;
 static  std::list<std::wstring> *list = nullptr;
-
+split_area_manage *split_area_manage;
 KeyBoardTag *keyBoardTag;
 
 #pragma data_seg()
@@ -41,6 +42,12 @@ BOOL APIENTRY DllMain(HMODULE hModule,
         {
             keyBoardTag = new KeyBoardTag;
         }
+        if (split_area_manage == nullptr)
+        {
+            split_area_manage = new class split_area_manage;
+            split_area_manage->init_from_config();
+        }
+
         break;
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
@@ -143,15 +150,19 @@ LRESULT WINAPI GetKeyMsgProc(int nCode, WPARAM wParam, LPARAM lParam) {
 
 void  PlaceWindow(const POINT& m_mouse)
 {
+    const auto area = split_area_manage->find_area(m_mouse);
+    if (area == nullptr) return;
+    
     HWND hWnd = WindowFromPoint(m_mouse);
     HWND win = GetMainWindow(hWnd);
-    MoveWindow(win, 0, 0, 1000, 1000, true);
-    wchar_t buff[50];
-    GetWindowText(win, buff, 50);
-    std::wstring a = buff;
-    std::string b;
-    std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> converter(new std::codecvt<wchar_t, char, std::mbstate_t>("CHS"));
-    file << "鼠标" << m_mouse.x << "," << m_mouse.y << converter.to_bytes(buff) << std::endl;
+    MoveWindow(win, area->rect.left, area->rect.top, area->rect.right - area->rect.left, area->rect.bottom - area->rect.top, true);
+    MessageBox(nullptr, L"a", L"b", 0);
+    //wchar_t buff[50];
+    //GetWindowText(win, buff, 50);
+    //std::wstring a = buff;
+    //std::string b;
+    //std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> converter(new std::codecvt<wchar_t, char, std::mbstate_t>("CHS"));
+    //file << "鼠标" << m_mouse.x << "," << m_mouse.y << converter.to_bytes(buff) << std::endl;
 }
 
 LRESULT WINAPI GetMouseMsgProc(int nCode, WPARAM wParam, LPARAM lParam) {

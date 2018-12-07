@@ -2,6 +2,7 @@
 
 #pragma once
 #include <list>
+#include "Service.h"
 
 struct split_area
 {
@@ -12,14 +13,15 @@ struct split_area
 
 };
 
-class split_area_manage
+
+EXPORT_LIBXLCRACK class split_area_manage
 {
 private:
     std::list<split_area*> *split_areas_;
 public:
-    void add_rect(split_area split_area);
-    void init_from_config();
-    split_area* find_area(const POINT& point);
-    split_area_manage();
-    ~split_area_manage();
+    EXPORT_LIBXLCRACK    void add_rect(split_area split_area);
+    EXPORT_LIBXLCRACK   void init_from_config();
+    EXPORT_LIBXLCRACK  split_area* find_area(const POINT& point);
+    EXPORT_LIBXLCRACK  split_area_manage();
+    EXPORT_LIBXLCRACK ~split_area_manage();
 };
