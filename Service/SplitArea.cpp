@@ -6,7 +6,7 @@ void split_area_manage::add_rect(split_area split_area)
 {
 }
 
-void split_area_manage::init_from_config()
+bool split_area_manage::init_from_config()
 {     
 
     std::ifstream is;
@@ -18,7 +18,7 @@ void split_area_manage::init_from_config()
     is.open(fileName, std::ios::binary);
     if (!is.is_open())
     {
-        return;
+        return false;
     }
     std::string str((std::istreambuf_iterator<char>(is)),
         std::istreambuf_iterator<char>());
@@ -42,6 +42,7 @@ void split_area_manage::init_from_config()
 
     }
     delete pCurrDir;
+    return true;
 }
 
 split_area* split_area_manage::find_area(const POINT& point)

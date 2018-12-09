@@ -28,7 +28,10 @@ namespace Config
             InitializeComponent();
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.AllPaintingInWmPaint, true);
             m_pen = new Pen(Color.Red);
-            splitAreas = new List<split_area>();
+            if (File.Exists("config.json"))
+                splitAreas = JsonConvert.DeserializeObject<List<split_area>>(File.ReadAllText("config.json"));
+            else 
+                splitAreas = new List<split_area>();
             var p = Process.GetProcessesByName("WindowSplit");
             if (p.Length > 0)
             {
@@ -40,7 +43,7 @@ namespace Config
         private void BtnOk_Click(object sender, EventArgs e)
         {
             string json = JsonConvert.SerializeObject(splitAreas);
-            File.AppendAllText("config.json", json);
+            File.WriteAllText("config.json", json);
             Close();
         }
 
@@ -140,7 +143,7 @@ namespace Config
         {
           var p =  Process.GetProcessesByName("WindowSplit")[0];
           p.Kill();
-          notifyIcon.Visible = false;
+          notifyIcon.Visible = true;
           Close();
         }
     }

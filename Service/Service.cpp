@@ -45,7 +45,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
         if (split_area_manage == nullptr)
         {
             split_area_manage = new class split_area_manage;
-            split_area_manage->init_from_config();
+    
         }
 
         break;
@@ -60,14 +60,16 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 
 bool WINAPI SetHook()
 {
+    if (!split_area_manage->init_from_config())
+    {
+        return false;
+    }
     hooks = new std::list<HHOOK__*>;
     list = new std::list<std::wstring>;
     auto g_hook1 = SetWindowsHookEx(WH_KEYBOARD_LL, GetKeyMsgProc, g_hInstDll, 0);
     hooks->push_back(g_hook1);
     auto g_hook2 = SetWindowsHookEx(WH_MOUSE_LL, GetMouseMsgProc, g_hInstDll, 0);
     hooks->push_back(g_hook2);
-    //hWnd = FindWindow(L"TestService", L"TestService");
-
     _wsetlocale(0, L"chs");
     file.open("log.txt");
     return true;
