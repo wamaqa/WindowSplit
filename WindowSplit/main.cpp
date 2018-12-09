@@ -1,12 +1,15 @@
+#include<stdio.h>
 #include <Windows.h>
 #include "../Service/Service.h"
 #include "../Service/SplitArea.h"
-
-int main()
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
     SetHook();
-    MessageBox(nullptr, "a", "a", 0);
-    UnHook();
+    MSG msg;
+    GetMessage(&msg, nullptr, 0, 0);
+    return true;
 }
+
+
 
 

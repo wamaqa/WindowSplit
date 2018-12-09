@@ -14,33 +14,34 @@ using Newtonsoft.Json;
 
 namespace Config
 {
-    public partial class Main : Form
+    public partial class FormSetting : Form
     {
         private int m_mouseDown = 0;
-
-
         private Point m_startPoint;
         private Point m_endPoint;
         private Pen m_pen;
         private List<split_area> splitAreas;
-        public Main()
+        public FormSetting()
         {
             InitializeComponent();
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.AllPaintingInWmPaint, true);
             m_pen = new Pen(Color.Red);
-            splitAreas = new List<split_area>();
-            var p = Process.GetProcessesByName("WindowSplit");
-            if (p.Length > 0)
+            if (File.Exists("config.json"))
             {
-                p[0].Kill();
+                ServiceApi.SetHook();
+                Close();
             }
-
+            string json = File.ReadAllText("config.json");
+            splitAreas = JsonConvert.DeserializeObject<List<split_area>>(json);
 
         }
+
         private void BtnOk_Click(object sender, EventArgs e)
         {
             string json = JsonConvert.SerializeObject(splitAreas);
-            File.AppendAllText("config.json", json);
+            File.WriteAllText("config.json", json);
+            ServiceApi.UnHook();
+            ServiceApi.SetHook();
             Close();
         }
 
@@ -107,41 +108,51 @@ namespace Config
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (notifyIcon.Visible)
+            if (e.CloseReason == CloseReason.UserClosing)
             {
-                e.Cancel = false;
+                e.Cancel = true;
+                WindowState = FormWindowState.Minimized;
+                notifyIcon.Visible = true;
+                Hide();
+            }
+        }
+
+        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (Visible)
+            {
+                WindowState = FormWindowState.Minimized;
+                notifyIcon.Visible = true;
+                Hide();
             }
             else
             {
-                notifyIcon.Visible = true;
-                if (Process.GetProcessesByName("WindowSplit").Length == 0)
-                {
-                    Process.Start("WindowSplit.exe");
-                }
-                WindowState = FormWindowState.Minimized;
-                Visible = false;
-                e.Cancel = true;
+                Visible = true;
+                WindowState = FormWindowState.Maximized;
+                Activate();
             }
         }
 
-        private void MenuSeting_Click(object sender, EventArgs e)
+        private void MenuSetting_Click(object sender, EventArgs e)
         {
-            WindowState = FormWindowState.Maximized;
-            this.Visible = true;
-        }
-
-        private void MenuClose_Click(object sender, EventArgs e)
-        {
-
-            Close();
+            if (Visible)
+            {
+                WindowState = FormWindowState.Minimized;
+                notifyIcon.Visible = true;
+                Hide();
+            }
+            else
+            {
+                Visible = true;
+                WindowState = FormWindowState.Maximized;
+                Activate();
+            }
         }
 
         private void MenuExit_Click(object sender, EventArgs e)
         {
-          var p =  Process.GetProcessesByName("WindowSplit")[0];
-          p.Kill();
-          notifyIcon.Visible = false;
-          Close();
+            ServiceApi.UnHook();
+            Close();
         }
     }
 

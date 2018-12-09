@@ -156,7 +156,6 @@ void  PlaceWindow(const POINT& m_mouse)
     HWND hWnd = WindowFromPoint(m_mouse);
     HWND win = GetMainWindow(hWnd);
     MoveWindow(win, area->rect.left, area->rect.top, area->rect.right - area->rect.left, area->rect.bottom - area->rect.top, true);
-    MessageBox(nullptr, L"a", L"b", 0);
     //wchar_t buff[50];
     //GetWindowText(win, buff, 50);
     //std::wstring a = buff;

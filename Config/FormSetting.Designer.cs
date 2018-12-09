@@ -1,6 +1,6 @@
 ﻿namespace Config
 {
-    partial class Main
+    partial class FormSetting
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -29,15 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSetting));
             this.BtnOk = new System.Windows.Forms.Button();
             this.BtnCancel = new System.Windows.Forms.Button();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.MenuSeting = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MenuSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1.SuspendLayout();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // BtnOk
@@ -71,34 +70,28 @@
             // 
             // notifyIcon
             // 
-            this.notifyIcon.BalloonTipText = "分屏工具";
-            this.notifyIcon.BalloonTipTitle = "分屏工具";
-            this.notifyIcon.ContextMenuStrip = this.contextMenuStrip1;
+            this.notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon.BalloonTipText = "我的托盘程序";
+            this.notifyIcon.BalloonTipTitle = "我的托盘程序";
+            this.notifyIcon.ContextMenuStrip = this.contextMenuStrip;
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-            this.notifyIcon.Text = "windowSplit";
+            this.notifyIcon.Text = "WindowSplit";
+            this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
             // 
-            // contextMenuStrip1
+            // contextMenuStrip
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuSeting,
-            this.MenuClose,
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuSetting,
             this.MenuExit});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(181, 70);
             // 
-            // MenuSeting
+            // MenuSetting
             // 
-            this.MenuSeting.Name = "MenuSeting";
-            this.MenuSeting.Size = new System.Drawing.Size(180, 22);
-            this.MenuSeting.Text = "设置";
-            this.MenuSeting.Click += new System.EventHandler(this.MenuSeting_Click);
-            // 
-            // MenuClose
-            // 
-            this.MenuClose.Name = "MenuClose";
-            this.MenuClose.Size = new System.Drawing.Size(180, 22);
-            this.MenuClose.Text = "关闭";
-            this.MenuClose.Click += new System.EventHandler(this.MenuClose_Click);
+            this.MenuSetting.Name = "MenuSetting";
+            this.MenuSetting.Size = new System.Drawing.Size(180, 22);
+            this.MenuSetting.Text = "设置";
+            this.MenuSetting.Click += new System.EventHandler(this.MenuSetting_Click);
             // 
             // MenuExit
             // 
@@ -121,13 +114,12 @@
             this.Name = "Main";
             this.Opacity = 0.5D;
             this.Text = "Form1";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Main_Paint);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Main_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Main_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Main_MouseUp);
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -137,9 +129,8 @@
         private System.Windows.Forms.Button BtnCancel;
         private System.Windows.Forms.Button BtnOk;
         private System.Windows.Forms.NotifyIcon notifyIcon;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem MenuSeting;
-        private System.Windows.Forms.ToolStripMenuItem MenuClose;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem MenuSetting;
         private System.Windows.Forms.ToolStripMenuItem MenuExit;
     }
 }
